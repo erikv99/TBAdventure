@@ -8,11 +8,11 @@ namespace TBAdventure.Super
 {
     class Entity
     {
-        private string name;
-        private int level;
-        private int health;
-        private int power;
-        private int defense;
+        private string Name { get; set; }
+        private int Level { get; set; }
+        private int Health { get; set; }
+        private int Power { get; set; }
+        private int Defense { get; set; }
 
         public Entity(string name, int level, int health, int power, int defense) 
         {
@@ -24,35 +24,35 @@ namespace TBAdventure.Super
         }
         private void Death() 
         {
-            Console.WriteLine("Entity {0} has died!", name);
-            health = 0;
+            Console.WriteLine("Entity {0} has died!", Name);
+            Health = 0;
         }
         protected void TakeDamage(int damage)
         {
             // Checking if entity is already dead 
-            if (health == 0)
+            if (Health == 0)
             {
-                Console.WriteLine("Entity {0} is already dead!", name);
+                Console.WriteLine("Entity {0} is already dead!", Name);
                 return;
             }
 
             // Checking if defense is more then damage (attack blocked)
-            if (defense >= damage) 
+            if (Defense >= damage) 
             {
-                Console.WriteLine("Entity {0} blocked incoming attack!", name);
+                Console.WriteLine("Entity {0} blocked incoming attack!", Name);
                 return;
             }
 
-            damage -= defense;
+            damage -= Defense;
 
             // Checking if the entity is dead.
-            if (health - damage <= 0) 
+            if (Health - damage <= 0) 
             {
                 Death();
                 return;
             }
 
-            health -= damage;
+            Health -= damage;
             Console.WriteLine("Entity {0} took {1} damage!", name, damage);
         }
         protected void Attack(Entity entity, int damage) 
