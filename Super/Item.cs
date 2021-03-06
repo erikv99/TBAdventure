@@ -8,7 +8,6 @@ namespace TBAdventure.Super
 {
     class Item
     {
-        // Even tho marked as public only the getter and setter are public
         public string Name { get; set; }
         public string Description { get; set; }
 

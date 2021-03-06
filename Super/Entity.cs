@@ -55,9 +55,9 @@ namespace TBAdventure.Super
         {
             entity.TakeDamage(damage);
         }
-        public void GetStats() 
+        public void ShowStats() 
         {
-            Console.Write("[STATS]\nName: {0}\nLevel: {1}\nHealth: {2}\nPower: {3}\nDefense{4}", Name, Level, Health, Power, Defense);
+            Console.Write("[STATS]\nName: {0}\nLevel: {1}\nHealth: {2}\nPower: {3}\nDefense: {4}\n", Name, Level, Health, Power, Defense);
         }
         public bool IsDead() 
         {
