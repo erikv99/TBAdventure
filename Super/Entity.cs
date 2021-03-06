@@ -1,45 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TBAdventure.Super
 {
     class Entity
     {
-        private string Name { get; set; }
-        private int Level { get; set; }
-        private int Health { get; set; }
-        private int Power { get; set; }
-        private int Defense { get; set; }
+        public string Name { get; set; }
+        public int Level { get; set; }
+        public int Health { get; set; }
+        public int Power { get; set; }
+        public int Defense { get; set; }
 
         public Entity(string name, int level, int health, int power, int defense) 
         {
-            this.name = name;
-            this.level = level;
-            this.health = health;
-            this.power = power;
-            this.defense = defense; 
+            Name = name;
+            Level = level;
+            Health = health;
+            Power = power;
+            Defense = defense; 
         }
         private void Death() 
         {
-            Console.WriteLine("Entity {0} has died!", Name);
+            Console.WriteLine("[DEATH] Entity {0} has died!", Name);
             Health = 0;
         }
-        protected void TakeDamage(int damage)
+        private void TakeDamage(int damage)
         {
             // Checking if entity is already dead 
             if (Health == 0)
             {
-                Console.WriteLine("Entity {0} is already dead!", Name);
                 return;
             }
 
             // Checking if defense is more then damage (attack blocked)
             if (Defense >= damage) 
             {
-                Console.WriteLine("Entity {0} blocked incoming attack!", Name);
+                Console.WriteLine("[BLOCKED] Entity {0} blocked incoming attack!", Name);
                 return;
             }
 
@@ -53,16 +48,26 @@ namespace TBAdventure.Super
             }
 
             Health -= damage;
-            Console.WriteLine("Entity {0} took {1} damage!", name, damage);
+            Console.WriteLine("[DAMAGE] Entity {0} took {1} damage!", Name, damage);
         }
-        protected void Attack(Entity entity, int damage) 
+        public void Attack(Entity entity, int damage) 
         {
             entity.TakeDamage(damage);
         }
-
-        public void getStats() 
+        public void GetStats() 
         {
-           Console.Write("Name: {0}\nLevel: {1}")
+            Console.Write("[STATS]\nName: {0}\nLevel: {1}\nHealth: {2}\nPower: {3}\nDefense{4}", Name, Level, Health, Power, Defense);
+        }
+        public bool IsDead() 
+        {
+            if (Health <= 0)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
         }
     }
 }
