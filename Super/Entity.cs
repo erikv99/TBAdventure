@@ -5,7 +5,8 @@ namespace TBAdventure.Super
     class Entity
     {
         public string Name { get; set; }
-        public int Level { get; set; }
+        // Level should only be changable by classes derived from the Entity class
+        public int Level { get; protected set; }
         public int Health { get; set; }
         public int Power { get; set; }
         public int Defense { get; set; }
