@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TBAdventure.Object;
 
 namespace TBAdventure.Super
 {
@@ -16,8 +13,8 @@ namespace TBAdventure.Super
             Name = name;
             Description = description;
         }
-
-        public virtual void Use(Entity entity) 
+        // Using Player as a parameter instead of entity, the use method is only used for a player and it is also much more easier down the line (see notes)
+        public virtual void Use(Player player) 
         { 
         }
     }

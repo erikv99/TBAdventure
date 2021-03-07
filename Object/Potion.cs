@@ -10,10 +10,21 @@ namespace TBAdventure.Object
         {
             HealAmount = healAmount;
         }
-        public override void Use(Entity entity) 
+        public override void Use(Player player) 
         {
-            entity.Health += HealAmount;
-            Console.WriteLine("[POTION] {0} has used a potion and gained {1} health!", entity.Name, HealAmount);
+            // Checking if potion exceeds max health
+            if (player.Health + HealAmount > player.MaxHealth) 
+            {
+                // Setting health to max
+                player.Health = player.MaxHealth;
+                Console.WriteLine("[POTION] {0} has used a potion and is now max health!", player.Name);
+            } 
+            else 
+            {
+                // Adding the potion hp to the player hp
+                player.Health += HealAmount;
+                Console.WriteLine("[POTION] {0} has used a potion ({1}HP) and is now {2} health!", player.Name, HealAmount, player.Health);
+            }
         }
     }
 }

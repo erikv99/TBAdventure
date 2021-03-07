@@ -17,7 +17,7 @@ namespace TBAdventure.Super
             Level = level;
             Health = health;
             Power = power;
-            Defense = defense; 
+            Defense = defense;
         }
         private void Death() 
         {
@@ -55,9 +55,9 @@ namespace TBAdventure.Super
         {
             entity.TakeDamage(damage);
         }
-        public void ShowStats() 
+        public virtual void ShowStats() 
         {
-            Console.Write("[STATS]\nName: {0}\nLevel: {1}\nHealth: {2}\nPower: {3}\nDefense: {4}\n", Name, Level, Health, Power, Defense);
+            Console.Write("[STATS]\n>Name: {0}\n>Level: {1}\n>Health: {2}\n>Power: {3}\n>Defense: {4}\n", Name, Level, Health, Power, Defense);
         }
         public bool IsDead() 
         {
