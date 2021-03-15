@@ -29,8 +29,9 @@ namespace TBAdventure
     {
         static void Main(string[] args)
         {
-            Player hero = new Player("Erik", 1, 35, 2, 3);
-            Enemy monster = new Enemy("Australian Spider 1", 1, 10, 7, 5);
+            CombatManager combatManager = new CombatManager();
+            Player hero = new Player("Erik", 1, 35, 2, 3, 1);
+            Enemy monster = new Enemy("Australian Spider 1", 1, 10, 7, 5, 1);
             // Making a counter to make it more easier to see which spider is which
             int counter = 2;
             string playerInput;
@@ -91,7 +92,7 @@ namespace TBAdventure
                 if (monster.IsDead())
                 {
                     hero.LevelUp();
-                    monster = new Enemy("Australian Spider " + counter.ToString(), 1, 10, 4, 4);
+                    monster = new Enemy("Australian Spider " + counter.ToString(), 1, 10, 4, 4, 1);
                     counter++;
                 } 
                 else 

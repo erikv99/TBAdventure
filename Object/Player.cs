@@ -13,7 +13,7 @@ namespace TBAdventure.Object
         public int MaxHealth { set; get; }
         public Armor ArmorSlot { set; get; }
         public Weapon WeaponSlot { set; get; }
-        public Player(string name, int level, int health, int power, int defense) : base(name, level, health, power, defense) 
+        public Player(string name, int level, int health, int power, int defense, int speed) : base(name, level, health, power, defense, speed) 
         {
             playerInventory.Add(new Potion("Healing potion", "Heals the player", 25));
             playerInventory.Add(new Weapon("Rusty sword", "A old rusty sword", 5));

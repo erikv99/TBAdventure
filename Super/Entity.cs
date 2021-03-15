@@ -10,14 +10,16 @@ namespace TBAdventure.Super
         public int Health { get; set; }
         public int Power { get; set; }
         public int Defense { get; set; }
+        public int Speed { get; set; }
 
-        public Entity(string name, int level, int health, int power, int defense) 
+        public Entity(string name, int level, int health, int power, int defense, int speed) 
         {
             Name = name;
             Level = level;
             Health = health;
             Power = power;
             Defense = defense;
+            Speed = speed;
         }
         private void Death() 
         {
@@ -57,7 +59,7 @@ namespace TBAdventure.Super
         }
         public virtual void ShowStats() 
         {
-            Console.Write("[STATS]\n>Name: {0}\n>Level: {1}\n>Health: {2}\n>Power: {3}\n>Defense: {4}\n", Name, Level, Health, Power, Defense);
+            Console.Write("[STATS]\n>Name: {0}\n>Level: {1}\n>Health: {2}\n>Power: {3}\n>Defense: {4}\n>Speed: {5}\n", Name, Level, Health, Power, Defense, Speed);
         }
         public bool IsDead() 
         {
