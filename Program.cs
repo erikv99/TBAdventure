@@ -23,6 +23,9 @@ using TBAdventure.Super;
 //Bij het(un)equippen van armor/weapon word deze in/uit de inventory gehaald zodat het geen duplicate wordt.
 
 // Wanneer defense hoger is dan inkomende damage word het een block
+
+// Game is missing a absolute ton of validation, holding back on it for now. (since requirements change every week)
+
 namespace TBAdventure
 {
     class Program
@@ -31,77 +34,8 @@ namespace TBAdventure
         {
             CombatManager combatManager = new CombatManager();
             Player hero = new Player("Erik", 1, 35, 2, 3, 1);
-            Enemy monster = new Enemy("Australian Spider 1", 1, 10, 7, 5, 1);
-            // Making a counter to make it more easier to see which spider is which
-            int counter = 2;
-            string playerInput;
+            
 
-            Console.WriteLine("**** Welcome to the text based adventure game! ****");
-            while (true)
-            {
-                // Checking if player is dead, if so breaking out of the game loop
-                if (hero.IsDead())
-                {
-                    break;
-                }
-
-                // Getting user input
-                Console.Write("\n[>] Enter desired command to execute: ");
-                playerInput = Console.ReadLine();
-                Console.Write("\n");
-
-                switch (playerInput.ToLower()) 
-                {
-                    case "attack":
-                        hero.Attack(monster, hero.Power);
-                        break;
-                    
-                    // In case the playerInput starts with "use "
-                    case string input when input.StartsWith("use "):
-
-                        // Removing first 4 chars "use " to get just the item the user wants to use
-                        string itemName = input.Remove(0, 4);
-
-                        // Checking if the player his inventory actually contains the item
-                        if (hero.GetItemFromInventory(itemName) != null) 
-                        {
-                            // Getting the first matching item from the players inventory
-                            Item item = hero.GetItemFromInventory(itemName);
-                            
-                            // Using the item
-                            item.Use(hero);
-
-                            // Checking if the item was a Potion and deleting it from inventory if true.
-                            if (item is Potion) 
-                            {
-                                hero.RemoveFromInventory(item);
-                            }
-                        }
-                        else 
-                        {
-                            Console.WriteLine("[INVENTORY] Item {0} is not present in inventory!, turn skipped!", itemName);
-                        }
-                        break;
-
-                    default:
-                        Console.WriteLine("[!] Command {0} is not a valid command, turn skipped!", playerInput);
-                        break;
-                }
-
-                // Checking if monster is dead, if so leveling up the player and making a new monster. if not letting the monster attack the player
-                if (monster.IsDead())
-                {
-                    hero.LevelUp();
-                    monster = new Enemy("Australian Spider " + counter.ToString(), 1, 10, 4, 4, 1);
-                    counter++;
-                } 
-                else 
-                {
-                    monster.Attack(hero, monster.Power);
-                }
-                hero.ShowStats();
-            }
-            Console.WriteLine("You have been defeated. GAME OVER!");
         }
     }
 }
