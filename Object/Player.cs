@@ -29,7 +29,7 @@ namespace TBAdventure.Object
         
         public void LevelUp() 
         {
-            // Rounding it up (if 0.5 or higher) not sure why we're not using floats instead of integers tho :D
+            // Rounding it up (if 0.5 or higher) 
             // Note: When leveling up i increase the MaxHealth not the Health itself (see notes)
             MaxHealth = (int)Math.Round(MaxHealth * 1.5);
             Power = (int)Math.Round(Power * 1.5);
@@ -45,7 +45,6 @@ namespace TBAdventure.Object
             Level++;
             Console.WriteLine("[LEVEL UP] Player {0} has leveled up and is now level {1} a {2} HP increase has been granted!", Name, Level, healthBonus);
         }
-
         public override void ShowStats()
         {
             base.ShowStats();

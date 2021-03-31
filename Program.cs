@@ -1,6 +1,6 @@
 ﻿using System;
 using TBAdventure.Object;
-using TBAdventure.Super;
+using TBAdventure.DataStructures;
 
 // Known issues / Todo's:
 // If player kills enemy and his defense becomes higher then the enemies attack he will always block and become pretty much immortal. will wait to see what else needs to be made in the game before changing this.
@@ -32,9 +32,25 @@ namespace TBAdventure
     {
         static void Main(string[] args)
         {
-            CombatManager combatManager = new CombatManager();
-            Player hero = new Player("Erik", 1, 35, 2, 3, 1);
-            
+            //CombatManager combatManager = new CombatManager();
+            //Player hero = new Player("Erik", 1, 35, 2, 3, 1);
+            //Console.WriteLine("**** Welcome to the text based adventure game! ****");
+            //combatManager.Setup(hero, true, 3);
+
+            //combatManager.FightLoop();
+
+            // Creating a new linkedList
+            Linkd myLinkedList = new Linkd();
+
+            // setting the head then creating some nodes.
+            myLinkedList.head = new Linkd.Node("Start");
+            Linkd.Node secondNode = new Linkd.Node("Node 2");
+            Linkd.Node thirdNode = new Linkd.Node("Node 3");
+            Linkd.Node finalNode = new Linkd.Node("Final node");
+
+            myLinkedList.head.next = secondNode;
+            secondNode.next = thirdNode;
+            thirdNode.next = finalNode;
 
         }
     }

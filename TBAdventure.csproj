@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\Linkd.cs" />
     <Compile Include="Object\CombatManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Object\Armor.cs" />
