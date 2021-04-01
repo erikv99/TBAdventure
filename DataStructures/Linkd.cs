@@ -61,7 +61,7 @@ namespace TBAdventure.DataStructures
             Console.WriteLine("**** Welcome to the text based adventure game! ****");
 
             // Looping untill we hit the final node or untill the player has died
-            while (currentNode != null || !player.IsDead()) 
+            while (currentNode != null && !player.IsDead()) 
             {
                 Console.WriteLine("\n[STORY] " + currentNode.story + " [Press any key to continue]");
                 Console.ReadKey(true);

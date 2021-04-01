@@ -154,10 +154,10 @@ namespace TBAdventure.Object
         /// Function to 
         /// </summary>
         /// <returns></returns>
-        public void FightLoop() 
+        public void FightLoop()
         {
             // Checking if the game has been setup
-            if (!gameHasBeenSetup) 
+            if (!gameHasBeenSetup)
             {
                 throw new ArgumentException("[!] CODE ERROR: FightLoop() cannot be used since game has not been setup yet!");
             }
@@ -167,11 +167,13 @@ namespace TBAdventure.Object
             Enemy monster = null;
             bool shownInitialAttackMessage = false;
 
+            Console.WriteLine("\n***  Combat activated    ***\n");
+
             // While player isn't dead and there are still enemies to fight
             while (!player.IsDead() && fightQueue.Count != 0)
             {
                 // If monster is dead or has yet to be assigned we assign it
-                if (monster == null || monster.IsDead()) 
+                if (monster == null || monster.IsDead())
                 {
                     // Trying to dequeue and cast the entity to a enemy. catching the cast exception so we can procceed. (if somehow a player got in the fight queue, pretty much impossible the way the code is setup)
                     try
@@ -184,16 +186,15 @@ namespace TBAdventure.Object
                     }
                 }
 
-                // If the attack message hasn't been shown yet we show it and make sure it doesn't get shown each iteration
-                if (!shownInitialAttackMessage) 
+                // If the attack message hasn't been shown yet we show it and make sure it doesn't get shown each iteration (will reset per enemy so it only shows once per enemy)
+                if (!shownInitialAttackMessage)
                 {
-                    Console.WriteLine("\n***  Combat activated    ***\n");
                     Console.WriteLine("[COMBAT] A " + monster.Name + " starts charging you!\n");
                     shownInitialAttackMessage = true;
                 }
 
                 // Auto or manual mode (player input or not)
-                if (playerCommandsEnabled) 
+                if (playerCommandsEnabled)
                 {
                     // Getting user input
                     Console.Write("[ACTION] Enter desired command to execute: ");
@@ -230,17 +231,17 @@ namespace TBAdventure.Object
                             }
                             else
                             {
-                                Console.WriteLine("\n[INVENTORY] Item {0} is not present in inventory!, turn skipped!", itemName);
+                                Console.WriteLine("[INVENTORY] Item {0} is not present in inventory!, turn skipped!\n", itemName);
                             }
                             break;
 
                         default:
-                            Console.WriteLine("[!] Command {0} is not a valid command, turn skipped!", playerInput);
+                            Console.WriteLine("[!] Command {0} is not a valid command, turn skipped!\n", playerInput);
                             break;
                     }
                 }
                 // If auto mode (no player input mode)
-                else 
+                else
                 {
                     player.Attack(monster, player.Power);
                 }
@@ -249,6 +250,7 @@ namespace TBAdventure.Object
                 if (monster.IsDead())
                 {
                     player.GainXP(10);
+                    shownInitialAttackMessage = false;
                 }
                 else
                 {
@@ -256,7 +258,12 @@ namespace TBAdventure.Object
                 }
                 player.ShowStats();
             }
-            Console.WriteLine("\n*** You have been defeated. GAME OVER! ***");
+
+            // Only want to display this if the player died
+            if (player.IsDead()) 
+            {
+                Console.WriteLine("*** You have been defeated. GAME OVER! ***");
+            }
         }
     }
 }
