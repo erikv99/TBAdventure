@@ -19,7 +19,7 @@ namespace TBAdventure.Object
                 player.Power = player.BasePower;
                 // Adding the item in the Weapon slot back to the inventory
                 player.AddItemToInventory(player.WeaponSlot);
-                Console.WriteLine("[WEAPON] Weapon {0} has been unequipped!", player.WeaponSlot.Name);
+                Console.WriteLine("[WEAPON] Weapon {0} has been unequipped!\n", player.WeaponSlot.Name);
             }
 
             // Setting the weapon slot to the current item 
@@ -28,7 +28,7 @@ namespace TBAdventure.Object
             player.Power += PowerAmount;
             // Removing the current item from the inventory
             player.RemoveFromInventory(this);
-            Console.WriteLine("[WEAPON] Weapon {0} has been equipped and increased power by {1} points!", this.Name, PowerAmount);
+            Console.WriteLine("[WEAPON] Weapon {0} has been equipped and increased power by {1} points!\n", this.Name, PowerAmount);
         }
     }
 }

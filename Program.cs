@@ -32,26 +32,34 @@ namespace TBAdventure
     {
         static void Main(string[] args)
         {
-            //CombatManager combatManager = new CombatManager();
-            //Player hero = new Player("Erik", 1, 35, 2, 3, 1);
-            //Console.WriteLine("**** Welcome to the text based adventure game! ****");
-            //combatManager.Setup(hero, true, 3);
+            // Creating our player
+            Player hero = new Player("Erik", 1, 35, 4, 3, 1);
+   
+            // Creating a new linkedList (storyline) change params to (hero, false) to disable player input
+            Linkd storyLineLL = new Linkd(hero);
 
-            //combatManager.FightLoop();
+            // Creating our node objects
+            Linkd.Node segment2, segment3, segment4;
 
-            // Creating a new linkedList
-            Linkd myLinkedList = new Linkd();
+            // setting the head then initializing our node objects
+            try 
+            {
+                storyLineLL.head = new Linkd.Node("You wake up confused, not sure where you are or how you got there.");
+                segment2 = new Linkd.Node("You're in a forrest surrounded by trees. You start walking hoping to find a sign of life.");
+                segment3 = new Linkd.Node("A screaming noice in the distance gives you goosebumps. You start running the other way. Right in to the deeper part of the forrest");
+                segment4 = new Linkd.Node("Suddenly you hear something running behind you, you turn around and draw your sword", true, 3);
+            }
+            catch (ArgumentException e) 
+            {
+                Console.WriteLine("\n" + e.Message + "\n");
+                return;
+            }
 
-            // setting the head then creating some nodes.
-            myLinkedList.head = new Linkd.Node("Start");
-            Linkd.Node secondNode = new Linkd.Node("Node 2");
-            Linkd.Node thirdNode = new Linkd.Node("Node 3");
-            Linkd.Node finalNode = new Linkd.Node("Final node");
-
-            myLinkedList.head.next = secondNode;
-            secondNode.next = thirdNode;
-            thirdNode.next = finalNode;
-
+            storyLineLL.head.next = segment2;
+            segment2.next = segment3;
+            segment3.next = segment4;
+            segment4.next = null;
+            storyLineLL.RunStoryline();
         }
     }
 }

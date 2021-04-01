@@ -6,14 +6,16 @@ namespace TBAdventure.Object
 {
     class CombatManager
     {
-        private bool playerCommandsEnabled = true; // Enabled by default
+        private bool playerCommandsEnabled;
         private Player player = null;
         private bool gameHasBeenSetup = false;
         private Queue<Entity> fightQueue = new Queue<Entity>();
 
         /// <summary>
-        /// Function which uses a bubble sort algorithm to order the entities in descending order based on speed. Will return a Queue of entities
+        /// Function which uses a bubble sort algorithm to order the entities in descending order based on speed. 
         /// </summary>
+        /// <param name="arrayOfEntities">array with the entities to sort</param>
+        /// <returns>Queue of entities ordered by speed descending</returns>
         private Queue<Entity> GetFightOrder(Entity[] arrayOfEntities)
         {
             // if lenght is 1 we dont have to sort it
@@ -48,9 +50,9 @@ namespace TBAdventure.Object
         /// <summary>
         /// Will return a random decimal value between param min and max
         /// </summary>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <returns>A decimal value</returns>
+        /// <param name="min">start (inclusive) (example 0.02)</param>
+        /// <param name="max">end (inclusive) (example 0.09)</param>
+        /// <returns>A decimal value between the given range</returns>
         private decimal GetRandomDecimal(decimal min, decimal max) 
         {
             Random rand = new Random();
@@ -64,9 +66,9 @@ namespace TBAdventure.Object
         }
 
         /// <summary>
-        /// Function to generate an X amount of enemies and return an array. 
+        /// Function to generate an X amount of enemies
         /// </summary>
-        /// <param name="numberOfEnemies"></param>
+        /// <param name="numberOfEnemies">The amount of enemies which should be returned</param>
         /// <returns> an array of Enemy Objects </returns>
         private Enemy[] GetEnemies(int numberOfEnemies) 
         {
@@ -116,12 +118,18 @@ namespace TBAdventure.Object
             return enemies;
         }
         
+        /// <summary>
+        /// function to setup the game, must be used before using fightloop()
+        /// </summary>
+        /// <param name="player">Player object which will fight te enemies</param>
+        /// <param name="playerCommandsEnabled">Should player commands be enabled?</param>
+        /// <param name="numberOfEnemies">number of enemies to fight against</param>
         public void Setup(Player player, bool playerCommandsEnabled, int numberOfEnemies)
         {   
             // Checking if the numberOfEnemies is atleast 1. 
             if (numberOfEnemies < 1)
             {
-                throw new ArgumentException("\n[!] CODE ERROR: Setup failed, number of enemies must atleast be 1!\n");
+                throw new ArgumentException("[!] CODE ERROR: Setup failed, number of enemies must atleast be 1!");
             }
 
             // Overriding the setup is allowed
@@ -139,23 +147,26 @@ namespace TBAdventure.Object
 
             // Sorting the enemies by speed
             fightQueue = GetFightOrder(enemies);
-
-            Console.WriteLine("[SETUP] Setup successfull!");
             gameHasBeenSetup = true;
         }
-        public bool FightLoop() 
+
+        /// <summary>
+        /// Function to 
+        /// </summary>
+        /// <returns></returns>
+        public void FightLoop() 
         {
             // Checking if the game has been setup
             if (!gameHasBeenSetup) 
             {
-                Console.WriteLine("[!] CODE ERROR: FightLoop() cannot be used since game has not been setup yet!");
-                return false;
+                throw new ArgumentException("[!] CODE ERROR: FightLoop() cannot be used since game has not been setup yet!");
             }
 
             // Some variables that need to be outside of the while loop scope.
             string playerInput;
             Enemy monster = null;
- 
+            bool shownInitialAttackMessage = false;
+
             // While player isn't dead and there are still enemies to fight
             while (!player.IsDead() && fightQueue.Count != 0)
             {
@@ -173,53 +184,71 @@ namespace TBAdventure.Object
                     }
                 }
 
-                // Getting user input
-                Console.Write("\n[>] Enter desired command to execute: ");
-                playerInput = Console.ReadLine();
-                Console.Write("\n");
-
-                switch (playerInput.ToLower())
+                // If the attack message hasn't been shown yet we show it and make sure it doesn't get shown each iteration
+                if (!shownInitialAttackMessage) 
                 {
-                    case "attack":
-                        player.Attack(monster, player.Power);
-                        break;
+                    Console.WriteLine("\n***  Combat activated    ***\n");
+                    Console.WriteLine("[COMBAT] A " + monster.Name + " starts charging you!\n");
+                    shownInitialAttackMessage = true;
+                }
 
-                    // In case the playerInput starts with "use "
-                    case string input when input.StartsWith("use "):
+                // Auto or manual mode (player input or not)
+                if (playerCommandsEnabled) 
+                {
+                    // Getting user input
+                    Console.Write("[ACTION] Enter desired command to execute: ");
+                    playerInput = Console.ReadLine();
+                    Console.Write("\n");
 
-                        // Removing first 4 chars "use " to get just the item the user wants to use
-                        string itemName = input.Remove(0, 4);
+                    // Switch statement to handle the user input
+                    switch (playerInput.ToLower())
+                    {
+                        case "attack":
+                            player.Attack(monster, player.Power);
+                            break;
 
-                        // Checking if the player his inventory actually contains the item
-                        if (player.GetItemFromInventory(itemName) != null)
-                        {
-                            // Getting the first matching item from the players inventory
-                            Item item = player.GetItemFromInventory(itemName);
+                        // In case the playerInput starts with "use "
+                        case string input when input.StartsWith("use "):
 
-                            // Using the item
-                            item.Use(player);
+                            // Removing first 4 chars "use " to get just the item the user wants to use
+                            string itemName = input.Remove(0, 4);
 
-                            // Checking if the item was a Potion and deleting it from inventory if true.
-                            if (item is Potion)
+                            // Checking if the player his inventory actually contains the item
+                            if (player.GetItemFromInventory(itemName) != null)
                             {
-                                player.RemoveFromInventory(item);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("[INVENTORY] Item {0} is not present in inventory!, turn skipped!", itemName);
-                        }
-                        break;
+                                // Getting the first matching item from the players inventory
+                                Item item = player.GetItemFromInventory(itemName);
 
-                    default:
-                        Console.WriteLine("[!] Command {0} is not a valid command, turn skipped!", playerInput);
-                        break;
+                                // Using the item
+                                item.Use(player);
+
+                                // Checking if the item was a Potion and deleting it from inventory if true.
+                                if (item is Potion)
+                                {
+                                    player.RemoveFromInventory(item);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("\n[INVENTORY] Item {0} is not present in inventory!, turn skipped!", itemName);
+                            }
+                            break;
+
+                        default:
+                            Console.WriteLine("[!] Command {0} is not a valid command, turn skipped!", playerInput);
+                            break;
+                    }
+                }
+                // If auto mode (no player input mode)
+                else 
+                {
+                    player.Attack(monster, player.Power);
                 }
 
                 // Checking if monster is dead, if so leveling up the player, if not letting the monster attack the player
                 if (monster.IsDead())
                 {
-                    player.LevelUp();
+                    player.GainXP(10);
                 }
                 else
                 {
@@ -227,8 +256,7 @@ namespace TBAdventure.Object
                 }
                 player.ShowStats();
             }
-            Console.WriteLine("You have been defeated. GAME OVER!");
-            return false;
+            Console.WriteLine("\n*** You have been defeated. GAME OVER! ***");
         }
     }
 }

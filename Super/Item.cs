@@ -1,5 +1,4 @@
-﻿using System;
-using TBAdventure.Object;
+﻿using TBAdventure.Object;
 
 namespace TBAdventure.Super
 {

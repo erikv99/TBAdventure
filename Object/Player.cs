@@ -13,6 +13,10 @@ namespace TBAdventure.Object
         public int MaxHealth { set; get; }
         public Armor ArmorSlot { set; get; }
         public Weapon WeaponSlot { set; get; }
+        
+        private int currentXP = 0;
+        private int neededXPToLevelUp;
+
         public Player(string name, int level, int health, int power, int defense, int speed) : base(name, level, health, power, defense, speed) 
         {
             playerInventory.Add(new Potion("Healing potion", "Heals the player", 25));
@@ -25,31 +29,56 @@ namespace TBAdventure.Object
             BasePower = power;
             BaseDefense = defense;
             MaxHealth = health;
+            neededXPToLevelUp = 10 * (Level * Level);
         }
         
-        public void LevelUp() 
+        /// <summary>
+        /// Function to level up the player
+        /// </summary>
+        private void LevelUp() 
         {
             // Rounding it up (if 0.5 or higher) 
             // Note: When leveling up i increase the MaxHealth not the Health itself (see notes)
             MaxHealth = (int)Math.Round(MaxHealth * 1.5);
             Power = (int)Math.Round(Power * 1.5);
             Defense = (int)Math.Round(Defense * 1.5);
+
             // Increasing the current base values with 1.5 (so not including weapon or armor etc)
             BasePower = (int)Math.Round(BasePower * 1.5);
             BaseDefense = (int)Math.Round(BaseDefense * 1.5);
             BaseHealth = (int)Math.Round(BaseHealth * 1.5);
+
             // Increasing level and giving player 20% of the new max health in hp.
             // Round function needs float or double so we cast maxhealth to float so it doesn't do an integer division
             int healthBonus = (int)Math.Round((float)MaxHealth / 100 * 20);
             Health += healthBonus;
             Level++;
-            Console.WriteLine("[LEVEL UP] Player {0} has leveled up and is now level {1} a {2} HP increase has been granted!", Name, Level, healthBonus);
+            Console.WriteLine("[LEVEL UP] Player {0} has leveled up and is now level {1}, a {2} HP increase has been granted!\n", Name, Level, healthBonus);
+        }
+        
+        /// <summary>
+        /// Function to add XP to the player, will level up when needed amount is reached
+        /// </summary>
+        /// <param name="amountOfExperience">Amount of XP to give to the player</param>
+        public void GainXP(int amountOfExperience) 
+        {
+            Console.WriteLine("[XP GAINED] Player {0} gained {1} XP!\n", Name, amountOfExperience);
+            currentXP += amountOfExperience; 
+            
+            // Checking if player is level up
+            if (currentXP >= neededXPToLevelUp) 
+            {
+                // leveling up the player and increasing the needed xp to level up
+                LevelUp();
+                neededXPToLevelUp = 10 * (Level * Level);
+            }
         }
         public override void ShowStats()
         {
             base.ShowStats();
-            Console.Write(">Max Health: {0}\n>Base Health: {1}\n>Base Power: {2}\n>Base Defense: {3}\n", MaxHealth, BaseHealth, BasePower, BaseDefense);
+            Console.Write(">Max Health: {0}\n>Base Health: {1}\n>Base Power: {2}\n>Base Defense: {3}\n>Current XP: {4}\n>XP need for next level: {5}\n\n", MaxHealth, BaseHealth, BasePower, BaseDefense, currentXP, neededXPToLevelUp);
         }
+
         public void AddItemToInventory(Item item) 
         {
             playerInventory.Add(item);
@@ -60,7 +89,11 @@ namespace TBAdventure.Object
             playerInventory.Remove(item);
         }
 
-        // Function will return a the first item with the specified name, if not found will return null
+        /// <summary>
+        /// Will return first item with the given name
+        /// </summary>
+        /// <param name="itemName">Name of the item to look for</param>
+        /// <returns>The item with the given name or null when not found </returns>
         public Item GetItemFromInventory(string itemName) 
         {
             // Looping thru the inventory (list)

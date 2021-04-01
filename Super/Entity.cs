@@ -23,7 +23,7 @@ namespace TBAdventure.Super
         }
         private void Death() 
         {
-            Console.WriteLine("[DEATH] Entity {0} has died!", Name);
+            Console.WriteLine("[DEATH] Entity {0} has died!\n", Name);
             Health = 0;
         }
         private void TakeDamage(int damage)
@@ -37,7 +37,7 @@ namespace TBAdventure.Super
             // Checking if defense is more then damage (attack blocked)
             if (Defense >= damage) 
             {
-                Console.WriteLine("[BLOCKED] Entity {0} blocked incoming attack!", Name);
+                Console.WriteLine("[BLOCKED] Entity {0} blocked incoming attack!\n", Name);
                 return;
             }
 
@@ -51,7 +51,7 @@ namespace TBAdventure.Super
             }
 
             Health -= damage;
-            Console.WriteLine("[DAMAGE] Entity {0} took {1} damage!", Name, damage);
+            Console.WriteLine("[DAMAGE] Entity {0} took {1} damage!\n", Name, damage);
         }
         public void Attack(Entity entity, int damage) 
         {

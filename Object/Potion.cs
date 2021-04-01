@@ -17,13 +17,13 @@ namespace TBAdventure.Object
             {
                 // Setting health to max
                 player.Health = player.MaxHealth;
-                Console.WriteLine("[POTION] {0} has used a potion and is now max health!", player.Name);
+                Console.WriteLine("[POTION] {0} has used a potion and is now max health!\n", player.Name);
             } 
             else 
             {
                 // Adding the potion hp to the player hp
                 player.Health += HealAmount;
-                Console.WriteLine("[POTION] {0} has used a potion ({1}HP) and is now {2} health!", player.Name, HealAmount, player.Health);
+                Console.WriteLine("[POTION] {0} has used a potion ({1}HP) and is now {2} health!\n", player.Name, HealAmount, player.Health);
             }
         }
     }
