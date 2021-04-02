@@ -89,6 +89,17 @@ namespace TBAdventure.Object
             playerInventory.Remove(item);
         }
 
+        public void ShowInventory() 
+        {
+            Console.WriteLine("[INVENTORY CONTENT]");
+            for (int i = 0; i < playerInventory.Count; i++) 
+            {
+                Console.WriteLine("[" + (i + 1) + "] " + playerInventory[i].Name);
+            }
+            // Just to get a a new line behind the last item
+            Console.WriteLine("");
+        }
+
         /// <summary>
         /// Will return first item with the given name
         /// </summary>

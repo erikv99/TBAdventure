@@ -117,6 +117,15 @@ namespace TBAdventure.Object
 
             return enemies;
         }
+
+        private void ShowCommands() 
+        {
+            Console.Write("[VALID COMMANDS]\n[1] Attack : Attack the current enemy\n" +
+                "[2] Use <ItemName> : Use a item from the inventory\n" +
+                "[3] Show stats : Show the player's stats \n" +
+                "[4] Show inventory : Show the player's inventory\n" +
+                "[5] Show Commands : Show all valid commands including descriptions\n\n");
+        }
         
         /// <summary>
         /// function to setup the game, must be used before using fightloop()
@@ -186,6 +195,8 @@ namespace TBAdventure.Object
                     }
                 }
 
+                bool actionTakesUpTurn = true;
+
                 // If the attack message hasn't been shown yet we show it and make sure it doesn't get shown each iteration (will reset per enemy so it only shows once per enemy)
                 if (!shownInitialAttackMessage)
                 {
@@ -206,6 +217,22 @@ namespace TBAdventure.Object
                     {
                         case "attack":
                             player.Attack(monster, player.Power);
+                            break;
+
+                        // The show inventory and show stats commands do not take up the current turn
+                        case "show inventory":
+                            player.ShowInventory();
+                            actionTakesUpTurn = false;
+                            break;
+
+                        case "show stats":
+                            player.ShowStats();
+                            actionTakesUpTurn = false;
+                            break;
+
+                        case "show commands":
+                            ShowCommands();
+                            actionTakesUpTurn = false;
                             break;
 
                         // In case the playerInput starts with "use "
@@ -236,7 +263,7 @@ namespace TBAdventure.Object
                             break;
 
                         default:
-                            Console.WriteLine("[!] Command {0} is not a valid command, turn skipped!\n", playerInput);
+                            Console.WriteLine("[!] Command {0} is not a valid command consider using the 'show commands' command, turn skipped!\n", playerInput);
                             break;
                     }
                 }
@@ -246,17 +273,20 @@ namespace TBAdventure.Object
                     player.Attack(monster, player.Power);
                 }
 
-                // Checking if monster is dead, if so leveling up the player, if not letting the monster attack the player
-                if (monster.IsDead())
+                // If the chosen action should take up a turn
+                if (actionTakesUpTurn) 
                 {
-                    player.GainXP(10);
-                    shownInitialAttackMessage = false;
+                    // Checking if monster is dead, if so leveling up the player, if not letting the monster attack the player
+                    if (monster.IsDead())
+                    {
+                        player.GainXP(10 + (5 * player.Level));
+                        shownInitialAttackMessage = false;
+                    }
+                    else
+                    {
+                        monster.Attack(player, monster.Power);
+                    }
                 }
-                else
-                {
-                    monster.Attack(player, monster.Power);
-                }
-                player.ShowStats();
             }
 
             // Only want to display this if the player died
