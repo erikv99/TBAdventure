@@ -9,7 +9,7 @@ namespace TBAdventure
         static void Main(string[] args)
         {
             // Creating our player
-            Player hero = new Player("Erik", 1, 35, 4, 3, 1);
+            Player hero = new Player("Erik", 1, 35, 5, 3, 1);
    
             // Creating a new linkedList (storyline) change params to (hero, false) to disable player input
             Linkd storyLineLL = new Linkd(hero);

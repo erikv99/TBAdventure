@@ -40,8 +40,26 @@ namespace TBAdventure.Object
             // Rounding it up (if 0.5 or higher) 
             // Note: When leveling up i increase the MaxHealth not the Health itself (see notes)
             MaxHealth = (int)Math.Round(MaxHealth * 1.5);
-            Power = (int)Math.Round(Power * 1.5);
-            Defense = (int)Math.Round(Defense * 1.5);
+
+            // If weaponslot is empty we dont add the WeaponSlot.PowerAmount since it doesnt exist and will throw an error
+            if (WeaponSlot == null)
+            {
+                Power = (int)Math.Round(Power * 1.5);
+            }
+            else
+            {
+                Power = (int)Math.Round(BasePower * 1.5) + WeaponSlot.PowerAmount;
+            }
+
+            // If armor is empty we dont add the ArmorSlot.DefenseAmount since it doesnt exist and will throw an error
+            if (ArmorSlot == null)
+            {
+                Defense = (int)Math.Round(Defense * 1.5);
+            }
+            else
+            {
+                Defense = (int)Math.Round(BaseDefense * 1.5) + ArmorSlot.DefenseAmount;
+            }
 
             // Increasing the current base values with 1.5 (so not including weapon or armor etc)
             BasePower = (int)Math.Round(BasePower * 1.5);
