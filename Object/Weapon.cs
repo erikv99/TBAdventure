@@ -17,6 +17,7 @@ namespace TBAdventure.Object
             {
                 // Setting power back to base amount (this does include level ups (minus the armor influencing the level up)
                 player.Power = player.BasePower;
+
                 // Adding the item in the Weapon slot back to the inventory
                 player.AddItemToInventory(player.WeaponSlot);
                 Console.WriteLine("[WEAPON] Weapon {0} has been unequipped!\n", player.WeaponSlot.Name);
@@ -24,8 +25,10 @@ namespace TBAdventure.Object
 
             // Setting the weapon slot to the current item 
             player.WeaponSlot = this;
+
             // Adding the power from the armor to the player power
             player.Power += PowerAmount;
+
             // Removing the current item from the inventory
             player.RemoveFromInventory(this);
             Console.WriteLine("[WEAPON] Weapon {0} has been equipped and increased power by {1} points!\n", this.Name, PowerAmount);

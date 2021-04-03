@@ -168,7 +168,7 @@ namespace TBAdventure.Object
             // Checking if the game has been setup
             if (!gameHasBeenSetup)
             {
-                throw new ArgumentException("[!] CODE ERROR: FightLoop() cannot be used since game has not been setup yet!");
+                throw new Exception("[!] CODE ERROR: FightLoop() cannot be used since game has not been setup yet!");
             }
 
             // Some variables that need to be outside of the while loop scope.

@@ -13,8 +13,6 @@ namespace TBAdventure.Super
             Description = description;
         }
         // Using Player as a parameter instead of entity, the use method is only used for a player and it is also much more easier down the line (see notes)
-        public virtual void Use(Player player) 
-        { 
-        }
+        public virtual void Use(Player player) { }
     }
 }

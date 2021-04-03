@@ -77,6 +77,11 @@ namespace TBAdventure.DataStructures
                     {
                         Console.WriteLine("\n" + e.Message + "\n");
                         break;
+                    }                    
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("\n" + e.Message + "\n");
+                        break;
                     }
                 }
                 // Setting current node to the next node in the list
